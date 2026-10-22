@@ -7,22 +7,22 @@ Home OS is a community web application, not a firmware replacement or operating 
 ## Features
 
 - Installed apps come from live Tizen APIs. Refreshes on package events, visibility changes, and a 60-second foreground poll.
-- Native icon cache with application-API and neutral fallbacks. Icon-only cards; no navigation instructions in the footer.
+- Original TV app icons in a minimal, icon-only layout.
 - Clock, hourly weather, seven-day forecast, and an ambient view. Weather comes from Open-Meteo. The default city is Brasília; edit its coordinates in `js/config.js` before building.
 - Eight optional historical Chromecast landscape URLs, rotating every ten minutes with photographer credit. Broken URLs are skipped; bundled illustrative landscapes provide an offline fallback.
-- Brazilian Portuguese, European Portuguese, English, Spanish, French, German, and Italian. All seven catalogs contain 120 messages, including errors and weather conditions.
+- Brazilian Portuguese, European Portuguese, English, Spanish, French, German, and Italian.
 - Short focus transitions, reduced precipitation rendering, and paused background work.
 - No framework, backend, or computer required for daily use on the TV.
 
 ## Compatibility and limitations
 
-The Sala 2.1.0 predecessor was tested on a Samsung QN55Q70A / Tizen 6.0 / Chromium 76. This 3.0.0 refactor passes unit and source/production browser checks, but still needs its own hardware validation. Other firmware may expose different app metadata or icon paths.
+Tested on a Samsung QN55Q70A running Tizen 6.0 / Chromium 76. Compatibility with other models and firmware may vary.
 
 The 1920 × 1080 logical canvas scales to Tizen's viewport. It does not change the physical panel resolution or another app's playback resolution.
 
-**Home and Back retain Samsung behavior.** Launch Home OS from the TV's app list. The TV menu is also available inside the app. Global Home-button replacement and automatic return from third-party apps are not implemented. An unsuccessful prototype remapping was reverted and is not shipped.
+Launch Home OS from the TV's app list. The original TV menu remains accessible inside the app. Integration as the default home screen, including Home-button and return behavior, is planned.
 
-`js/native-icons.js` contains cache-location hints, not an installed-app inventory or allowlist. New apps are detected automatically. Cache aliases may need updates when the API supplies a missing or generic icon.
+New apps are detected automatically. Some firmware may require icon-path adjustments when the TV supplies a missing or generic icon.
 
 The optional remote wallpapers use a historical catalog, not a supported Google API or the current Chromecast feed. URLs can stop working. Photographer attribution does not transfer image rights; see [third-party notices](THIRD_PARTY_NOTICES.md). Choose Local weather landscapes in Settings for local backgrounds.
 
@@ -35,23 +35,19 @@ pnpm install --frozen-lockfile
 pnpm start
 ```
 
-Open http://127.0.0.1:4173. The desktop preview cannot read TV apps or launch them. It starts without a captured device inventory; browser tests inject explicit fixtures that are not shipped in the production build.
+Open http://127.0.0.1:4173. The desktop preview shows the interface; installed-app discovery and app launching require a TV.
 
-Edit `js/config.js` for city coordinates, default language, favorite ordering, and optional HDMI entries. Viewers can change language, temperature, clock, effects, backgrounds, and app visibility in Settings. Existing Sala preferences are preserved through retained storage keys.
+Edit `js/config.js` for city coordinates, default language, favorite ordering, and optional HDMI entries. Viewers can change language, temperature, clock, effects, backgrounds, and app visibility in Settings.
 
-## Test and build
+## Build
 
 ```sh
-pnpm test
 pnpm build
-pnpm exec playwright install chromium
-pnpm test:ui
-pnpm test:ui --dist
 ```
 
-`dist/` contains the minified application, targeting Chromium 76 with one combined script. Readable sources remain in `js/` and `css/`. Build reports record byte counts; minification does not prove a frame-rate improvement.
+The ready-to-package application is generated in `dist/`.
 
-For system Edge on Windows, set `PLAYWRIGHT_CHANNEL=msedge`. GitHub Actions uses Playwright Chromium. Browser checks cover seven locales across Home, Settings, Library, Forecast, and Ambient, including layout boundaries, remote navigation, preference persistence, and unchanged app-list nodes.
+Development and test instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Install
 
@@ -67,9 +63,17 @@ With a native Linux/macOS Tizen SDK:
 bash tools/install.sh /path/to/tizen-sdk your-profile YOUR_TV_IP
 ```
 
-The installer signs, installs, and launches the built app. Certificates, credentials, SDK installations, personal signed packages, and temporary device/root helpers are not included. The installer does not modify system button routing.
+The installer signs, installs, and launches the built app using your own Samsung profile. It does not modify system button routing.
 
-The application ID remains `TvHomeLnch.Home`, package `TvHomeLnch`, to support updates with the same author certificate. The display name is Home OS. A differently signed installation may need removal before installing your own signed build, which can remove saved preferences.
+Updates require the same author certificate used for the installed app. A differently signed installation may need removal first, which can remove saved preferences.
+
+### Install with an AI coding assistant
+
+Codex, Claude Code, or another coding assistant with terminal access can help prepare the SDK, build, sign, and install Home OS. Open this repository in your assistant and use this prompt:
+
+> Install Home OS from https://github.com/fabionfsc/home-os on my Samsung Tizen TV. Read the README and installation scripts first. Detect my computer's operating system, find or help install the Samsung TV Tizen SDK, install the project dependencies, and build the app. Ask me for the TV IP and my existing Samsung signing profile when needed, then use the appropriate installer to sign, install, and launch it. Explain any steps I must complete on the TV or in the certificate manager. Keep the TV's current Home/Back routing and other apps unchanged.
+
+Developer Mode and Samsung certificate authorization can require manual steps. Complete account sign-in and certificate creation yourself when prompted; an AI assistant cannot bypass those requirements.
 
 ## Contributing and license
 

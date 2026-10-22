@@ -2,7 +2,7 @@
 
 A minimal home screen for Samsung Tizen TVs: landscape wallpapers, a large clock, weather, original TV app icons, and a remote-friendly interface.
 
-Home OS is a community web application, not a firmware replacement or operating system. Derived from [berteotti/custom-tv](https://github.com/berteotti/custom-tv). [Leia em português](README.pt-BR.md).
+Home OS is a community web application, not a firmware replacement or operating system. Derived from [berteotti/custom-tv](https://github.com/berteotti/custom-tv).
 
 ## Features
 

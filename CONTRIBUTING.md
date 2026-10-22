@@ -10,4 +10,4 @@ Use explicit app fixtures in tests. Never seed a runtime installed-app list from
 
 For hardware bugs, include the model, firmware/Tizen version, app version, and repeatable steps. Browser tests cannot verify Samsung APIs, native app launches, or physical remote behavior. Do not change global Home/Back routing as part of an interface change.
 
-Keep certificates, signed personal packages, SDK installations, credentials, and temporary device helpers out of pull requests. Preserve third-party notices and the original MIT copyright notice.
+Keep certificates, signed personal packages, SDK installations, credentials, and temporary device helpers out of pull requests. Preserve applicable copyright notices and licenses.

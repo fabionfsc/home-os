@@ -1,0 +1,21 @@
+name: Bug report
+description: Report a reproducible problem on your TV
+body:
+  - type: input
+    id: tv
+    attributes:
+      label: TV model and Tizen version
+      placeholder: Samsung QN55Q70A, Tizen 6.0
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps, expected result, and actual result
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: App version and relevant logs
+      description: Remove credentials, device identifiers, and personal information before sharing logs.

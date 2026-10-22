@@ -1,0 +1,17 @@
+build/
+dist/
+test-results/
+node_modules/
+playwright-report/
+*.wgt
+*.zip
+*.p12
+*.pwd
+*.cer
+profiles.xml
+.env
+.env.*
+*.key
+*.pem
+*.pfx
+*.log

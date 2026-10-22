@@ -1,0 +1,24 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const path = require('node:path');
+test('balanced precipitation uses a smaller canvas and suspends its animation loop while paused', () => {
+  const frames = new Map(); let next = 0;
+  const ctx = { setTransform() {}, clearRect() {} };
+  const canvas = { getContext: () => ctx };
+  const context = vm.createContext({ window: {}, performance: {now:()=>0}, requestAnimationFrame: fn => {frames.set(++next,fn); return next;}, cancelAnimationFrame: id=>frames.delete(id) });
+  vm.runInContext(fs.readFileSync(path.join(__dirname,'../js/sky.js'),'utf8'),context);
+  const rain = context.window.TVSky.Precip(canvas, null);
+  assert.deepEqual([canvas.width,canvas.height], [960,540]);
+  rain.set('rain',3);
+  assert.equal(frames.size,1);
+  rain.pause(true);
+  assert.equal(frames.size,0);
+  rain.pause(false);
+  assert.equal(frames.size,1);
+  rain.quality('quality');
+  assert.deepEqual([canvas.width,canvas.height], [1920,1080]);
+  rain.set(null,0);
+  assert.equal(frames.size,0);
+});

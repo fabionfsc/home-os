@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920, user-scalable=no">
+  <title>Home OS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="sky" width="1920" height="1080"></canvas>
+    <div id="landscape" aria-hidden="true">
+      <div class="landscape-layer"></div>
+      <div class="landscape-layer"></div>
+      <div class="landscape-haze"></div>
+    </div>
+    <canvas id="precip" width="1920" height="1080"></canvas>
+    <div class="flash" id="flash"></div>
+    <div class="scrim" id="scrim"></div>
+
+    <main id="home" class="scope">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark" data-icon="spark"></span><span>Home OS</span></div>
+        <nav class="actions">
+          <button class="nav-btn focusable" data-action="home"><span data-icon="home"></span><span data-i18n="Home">Início</span></button>
+          <button class="nav-btn focusable" data-action="library"><span data-i18n="Your apps">Seus aplicativos</span></button>
+          <button class="nav-btn focusable" data-action="forecast"><span data-i18n="Forecast">Previsão do tempo</span></button>
+          <button class="nav-btn focusable" data-action="ambient"><span data-i18n="Ambient mode">Modo ambiente</span></button>
+        </nav>
+        <div class="system-actions">
+          <button class="pill-btn focusable" data-action="system" data-i18n="TV menu">Menu da TV</button>
+          <button class="icon-btn focusable" data-action="settings" data-icon="sliders" data-i18n-label="Settings" aria-label="Configurações"></button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="greeting">
+          <div class="date" id="date"></div>
+          <div class="clock" id="clock"></div>
+          <h1 id="greet"></h1>
+          <p class="sub" id="sub"></p>
+          <p class="sun" id="sunline"></p>
+        </div>
+        <div class="weather focusable" id="weather" data-action="forecast">
+          <div class="weather-heading"><span id="place"></span><span data-i18n="Forecast">Previsão do tempo</span></div>
+          <div class="wx-main">
+            <div class="wx-icon" id="wxIcon"></div>
+            <div class="wx-temp" id="wxTemp">--°</div>
+            <div class="wx-text">
+              <div class="wx-cond" id="wxCond" data-i18n="Loading weather…">Carregando previsão do tempo…</div>
+              <div class="wx-hilo" id="wxHilo"></div>
+            </div>
+          </div>
+          <div class="wx-details" id="wxDetails"></div>
+          <div class="wx-hours" id="wxHours"></div>
+          <div class="weather-status" id="wxStatus"></div>
+        </div>
+      </section>
+
+      <section class="apps">
+        <div class="apps-heading"><div><h2 data-i18n="Your apps">Seus aplicativos</h2><span class="sr-only" id="appStatus" aria-live="polite"></span></div><button class="pill-btn focusable" data-action="library" data-i18n="See all">Ver todos</button></div>
+        <div class="grid-viewport"><div class="grid" id="grid"></div></div>
+      </section>
+    </main>
+
+    <section id="library" class="overlay scope" hidden>
+      <div class="panel library-panel">
+        <div class="panel-head"><div><div class="eyebrow">HOME OS</div><h3 data-i18n="Your apps">Seus aplicativos</h3><p class="panel-description" data-i18n="Live apps description">Aplicativos instalados na TV, atualizados automaticamente.</p></div><button class="pill-btn focusable" data-action="close" data-i18n="Close">Fechar</button></div>
+        <div class="library-grid" id="libraryGrid"></div>
+        <div class="panel-footer"><button class="pill-btn focusable" data-action="refreshApps" data-i18n="Refresh apps">Atualizar aplicativos</button><button class="pill-btn focusable" data-action="system" data-i18n="TV menu">Menu da TV</button></div>
+      </div>
+    </section>
+
+    <section id="forecast" class="overlay scope" hidden>
+      <div class="panel forecast-panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow" id="fcPlace"></div>
+            <h3 data-i18n="7-day forecast">Previsão para 7 dias</h3>
+          </div>
+          <button class="pill-btn focusable" data-action="close" data-i18n="Close">Fechar</button>
+        </div>
+        <div class="fc-days" id="fcDays"></div>
+        <div class="fc-facts" id="fcFacts"></div>
+      </div>
+    </section>
+
+    <section id="settings" class="overlay scope" hidden>
+      <div class="panel settings-panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow" data-i18n="Home">Início</div>
+            <h3 data-i18n="Settings">Configurações</h3>
+          </div>
+          <button class="pill-btn focusable" data-action="close" data-i18n="Close">Fechar</button>
+        </div>
+        <div class="settings-body">
+          <div class="settings-col" id="prefs"></div>
+          <div class="settings-col">
+            <div class="col-title"><strong data-i18n="Apps on Home">Aplicativos na tela inicial</strong> <span data-i18n="Press OK to show or hide">Pressione OK para mostrar ou ocultar</span></div>
+            <div class="app-list" id="appList"></div>
+          </div>
+        </div>
+        <div class="panel-footer"><button class="pill-btn focusable" data-action="showAll" data-i18n="Show all on Home">Mostrar todos no início</button><button class="pill-btn focusable" data-action="refreshApps" data-i18n="Refresh apps">Atualizar aplicativos</button></div>
+      </div>
+    </section>
+
+    <section id="ambient" class="ambient scope" hidden>
+      <div class="amb-time" id="ambTime"></div>
+      <div class="amb-date" id="ambDate"></div>
+      <div class="amb-wx" id="ambWx"></div>
+      <button class="focusable amb-exit" data-action="close" data-i18n-label="Exit ambient mode" aria-label="Sair do modo ambiente"></button>
+    </section>
+
+    <div class="toast" id="toast"></div>
+    <div class="photo-credit" id="photoCredit"></div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/native-icons.js"></script>
+  <script src="js/locales/en-GB.js"></script>
+  <script src="js/locales/pt-BR.js"></script>
+  <script src="js/locales/pt-PT.js"></script>
+  <script src="js/locales/es-ES.js"></script>
+  <script src="js/locales/fr-FR.js"></script>
+  <script src="js/locales/de-DE.js"></script>
+  <script src="js/locales/it-IT.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/sky.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/landscape.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

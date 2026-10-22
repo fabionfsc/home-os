@@ -4,6 +4,10 @@ A minimal home screen for Samsung Tizen TVs: landscape wallpapers, a large clock
 
 Home OS is a community web application for Samsung Tizen TVs.
 
+![Home OS home screen with landscape wallpaper, clock, weather, and native TV app icons](docs/home-screen.png)
+
+*Home screen preview. Available apps and weather vary by device and location.*
+
 ## Features
 
 - Installed apps come from live Tizen APIs. Refreshes on package events, visibility changes, and a 60-second foreground poll.
